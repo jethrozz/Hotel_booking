@@ -11,5 +11,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/dapphub/ds-test.git"
+  },
+  "dependencies": {
+    "ds-test": "file:"
   }
 }
