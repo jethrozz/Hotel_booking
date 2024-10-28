@@ -51,7 +51,7 @@ contract HotelBooking {
     mapping(uint256 => Room) public rooms;  
     // 订单id到订单的映射
     mapping(uint256 => BookingOrder) public roomBookings;
-    mapping(uint256 => BookingOrder[]) public guestOrders;
+    mapping(address => BookingOrder[]) public guestOrders;
     // 事件
     event RoomAdded(uint256 roomId, string category, uint256 pricePerNight);
     event RoomBooked(uint256 roomId, address guest, uint256 checkInDate, uint256 checkOutDate);
@@ -91,8 +91,8 @@ contract HotelBooking {
     }
 
     modifier checkGuestOrder(){
-       BookingOrder[] guestOrders = guestOrders[msg.sender];
-       if(guestOrders.length == 0){
+        BookingOrder[] memory userOrders = guestOrders[msg.sender];
+       if(userOrders.length == 0){
             revert GuestNotHaveOrder();
        }
        _;
@@ -117,7 +117,7 @@ contract HotelBooking {
         if(roomId == type(uint256).max) {
             revert RoomNotAvailable(getCategoryString(category));
         }
-        bookRoomById(roomId);
+        bookRoomById(roomId, checkInDate, checkOutDate);
     }
 
     function bookRoomById(uint256 roomId, uint256 checkInDate, uint256 checkOutDate) public roomExists(roomId) {
@@ -165,7 +165,7 @@ contract HotelBooking {
     }
 
     //查看房间详情
-    function getRoomDetail(uint256 _roomId) public roomExists(_roomId) returns(
+    function getRoomDetail(uint256 _roomId) public view roomExists(_roomId) returns(
         string memory category, uint256 pricePerNight, bool isAvailable, Review[] memory reviews
     ){
         Room memory room = rooms[_roomId];
@@ -173,7 +173,7 @@ contract HotelBooking {
     }
 
     //h获取订单详情
-    function getBookingDetails(uint256 _roomId) public roomExists(_roomId) returns (
+    function getBookingDetails(uint256 _roomId) public view roomExists(_roomId) returns (
         address guest, uint256 checkInDate, uint256 checkOutDate, string memory category
     ) {
         BookingOrder memory booking = roomBookings[_roomId];
