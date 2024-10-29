@@ -29,6 +29,8 @@ contract HotelBooking {
         Review[] reviews;
         //该房间的订单
         BookingOrder[] bookings;
+        //该房间的图片
+        string[] images;
     }
     // 订单
     struct BookingOrder{
@@ -99,13 +101,14 @@ contract HotelBooking {
     }
 
     //添加房间
-    function addRoom(RoomCategory _category, uint256 _pricePerNight) public onlyOwner {
+    function addRoom(RoomCategory _category, uint256 _pricePerNight, string[] memory _images) public onlyOwner {
         uint256 roomId = roomCount++;
         Room storage room = rooms[roomId];
         room.id = roomId;
         room.category = _category;
         room.pricePerNight = _pricePerNight;
         room.isAvailable = true;
+        room.images = _images;
         emit RoomAdded(roomCount, getCategoryString(_category), _pricePerNight);
     }
     //预定房间 按类别
@@ -188,6 +191,10 @@ contract HotelBooking {
             allRooms[i] = rooms[i];
         }
         return allRooms;
+    }
+
+    function getOwner() public view returns (address) {
+        return owner;
     }
 
 
