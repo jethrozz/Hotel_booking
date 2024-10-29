@@ -2,18 +2,19 @@
 pragma solidity ^0.8.13;
 
 import {Script, console} from "forge-std/Script.sol";
-import {MyToken} from "../src/MyToken.sol";
-
+import {HotelBooking} from "../src/Booking.sol";
+import {HotelToken} from "../src/Token.sol";
 
 
 contract DeployerScript is Script {
     function setUp() public {}
 
-     function run() public returns(MyToken)  {
+     function run() public returns(HotelBooking)  {
         vm.startBroadcast();
-        MyToken token = new MyToken(1000000);
+        HotelToken token = new HotelToken();
+        HotelBooking hotelBooking = new HotelBooking(address(token));
 
         vm.stopBroadcast();
-        return token;
+        return hotelBooking;
     }
 }
