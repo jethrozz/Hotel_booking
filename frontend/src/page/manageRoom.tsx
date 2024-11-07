@@ -1,7 +1,7 @@
 "use client";
-import { useReadContract} from "wagmi";
+import { useReadContract, useAccount, useBalance } from "wagmi";
 import { useEffect, useState } from "react";
-import { bookingAbi, bookingAddress } from "@/constants";
+import { bookingAbi, bookingAddress, tokenAddress, tokenAbi } from "@/constants";
 import RoomCard from "@/components/RoomCard";
 import Header from "@/page/header";
 
@@ -28,7 +28,7 @@ export default function ManageRoom() {
 
       {/* 房间列表  每行3个房间*/}
 
-      <div className="flex flex-wrap gap-4">
+      <div className="flex flex-wrap">
         {rooms.length > 0 ? (
           rooms?.map((room: any) => (
             <RoomCard key={room.id} room={room} />

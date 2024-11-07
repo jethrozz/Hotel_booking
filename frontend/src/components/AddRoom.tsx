@@ -95,7 +95,7 @@ export default function AddRoom({showModal, onClose}: AddRoomProps ){
                   </div>
     
                   <div>
-                    <label className="block text-sm font-medium mb-1 text-gray-800">每晚价格 (ETH)</label>
+                    <label className="block text-sm font-medium mb-1 text-gray-800">每晚价格 (HTK)</label>
                     <input
                       type="number"
                       step="0.01"
